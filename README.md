@@ -32,7 +32,7 @@ LedgerLight was built to practice full‑stack fundamentals: secure authenticati
 
 ### Deployed app and planning materials
 
-- Deployed app: TBD
+- Deployed app: [https://ledger-light-3d68c6f45346.herokuapp.com](https://ledger-light-3d68c6f45346.herokuapp.com)
 - Trello (planning): [https://trello.com/b/zVqBrZsS/ledger-light](https://trello.com/b/zVqBrZsS/ledger-light)
 
 If you share those links, we’ll update them here.
