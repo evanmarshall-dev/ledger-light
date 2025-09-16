@@ -4,9 +4,8 @@
     <main id="maincontent" class="transactions-list container">
       <h1>Transactions</h1>
       <div class="transactions-top">
+        <a class="btn" href="/transactions/new">New Transaction</a>
         <div class="transactions-actions">
-          <a class="btn" href="/transactions/new">New Transaction</a>
-
           <% // Active filters summary %>
           <% if (filters && (filters.month || filters.category || filters.sort)) { %>
             <div class="active-filters" aria-live="polite">
