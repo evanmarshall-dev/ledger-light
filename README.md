@@ -203,6 +203,26 @@ If you add third‑party icons, images, or other assets that require attribution
         └── show.ejs
 ```
 
+## RESTful routing
+
+This section documents the primary RESTful routes used by LedgerLight. The app follows conventional REST patterns for authentication and transaction resources. Below is a concise table of routes, the HTTP methods they accept, and their purpose.
+
+| Route                    |        Method(s) | Purpose                                                  |
+| ------------------------ | ---------------: | -------------------------------------------------------- |
+| `/`                      |              GET | Home / dashboard (transactions summary)                  |
+| `/auth/register`         |        GET, POST | Show registration form / create new user                 |
+| `/auth/login`            |        GET, POST | Show login form / create session                         |
+| `/auth/logout`           |             POST | Destroy session (logout)                                 |
+| `/transactions`          |        GET, POST | List user's transactions / create a new transaction      |
+| `/transactions/new`      |              GET | Form to create a new transaction                         |
+| `/transactions/:id`      | GET, PUT, DELETE | Show a single transaction / update / delete (owner-only) |
+| `/transactions/:id/edit` |              GET | Form to edit an existing transaction                     |
+
+Notes:
+
+- HTML forms that perform PUT/DELETE use method-override via the `?_method=` query param (e.g. `POST /transactions/:id?_method=PUT`).
+- All state-changing routes require a CSRF token and an authenticated session.
+
 ## Deployment (Heroku)
 
 Below is a minimal, production‑safe setup for deploying to Heroku using the official Node.js buildpack.
