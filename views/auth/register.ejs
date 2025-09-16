@@ -1,0 +1,32 @@
+<%- include('../partials/_head', { title: 'Register', styles: ['/styles/auth.css'] }) %>
+  <body>
+    <%- include('../partials/_navbar') %>
+    <main id="maincontent" class="auth-page">
+      <div class="auth-card">
+        <h1>Register</h1>
+        <% if (flash && flash.error) { %> <% flash.error.forEach(msg => { %>
+        <p role="alert" class="flash-error"><%= msg %></p>
+        <% }) %> <% } %>
+        <form class="form" action="/auth/register" method="post" data-validate="auth" novalidate>
+          <% if (csrfToken) { %>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <% } %>
+          <% if (typeof email !== 'undefined') { %>
+          <input type="hidden" name="email" value="<%= email %>" />
+          <% } %>
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" required value="<%= typeof username !== 'undefined' ? username : '' %>" />
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required value="<%= typeof email !== 'undefined' ? email : '' %>" />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required />
+          <div class="form__actions auth-actions">
+            <button type="submit" class="btn btn--primary">Register</button>
+            <a href="/" class="btn btn--secondary">Back</a>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script src="/js/main.js" defer></script>
+  </body>
+</html>

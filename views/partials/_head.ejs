@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      <% if (typeof title !== 'undefined' && typeof titleTemplate !==
+      'undefined') { %> <%= titleTemplate.replace('%s', title) %> <% } else if
+      (typeof title !== 'undefined') { %> <%= title %> <% } else { %>
+      LedgerLight <% } %>
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/globals.css" />
+    <link rel="stylesheet" href="/styles/partials.css" />
+    <% if (typeof styles !== 'undefined' && Array.isArray(styles)) { %> <%
+    styles.forEach(function(s){ %>
+    <link rel="stylesheet" href="<%= s %>" />
+    <% }) %> <% } %>
+  </head>
+  <body>
+    <!-- body will be closed by the including template -->
+  </body>
+</html>

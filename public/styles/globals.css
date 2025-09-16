@@ -1,0 +1,510 @@
+/* ==========================
+  Root variables & typography
+  ========================== */
+:root {
+  /* Type */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+    "Courier New", monospace;
+
+  /* Base scale */
+  --fs-base: clamp(0.875rem, 0.9rem + 0.2vw, 1rem); /* scalable base */
+  --fs-sm: clamp(0.75rem, 0.8rem + 0.15vw, 0.875rem);
+  --fs-lg: clamp(1.125rem, 1.05rem + 1vw, 1.25rem);
+
+  /* Colors (financial, modern palette) */
+  --color-bg: #0f1724; /* dark slate */
+  --color-surface: #0b1220; /* surface */
+  --color-card: #0e1a2b;
+  --color-primary: #0ea5a4; /* teal-ish */
+  --color-accent: #60a5fa; /* blue accent */
+  --color-muted: #94a3b8; /* neutral */
+  --color-text: #e6eef8; /* light text */
+  --color-error: #ff6b6b;
+  /* Semantic tokens */
+  --color-success: #16a34a; /* green */
+  --color-warning: #f59e0b; /* amber */
+  --color-info: #60a5fa; /* info - same as accent */
+  --color-on-primary: #071717; /* high-contrast text on primary */
+  --color-on-surface: #e6eef8; /* use main text color for better contrast */
+  --color-muted: #b9c7d9; /* slightly lighter for contrast */
+  /* Hover / active states */
+  --color-primary-600: #0b8f8d;
+  --color-primary-700: #086f6e;
+  --color-accent-600: #4d8ff5;
+  --color-accent-700: #2a6fe6;
+  --surface-hover: rgba(255, 255, 255, 0.03);
+  --surface-active: rgba(0, 0, 0, 0.06);
+
+  /* Layout */
+  --site-max: min(1200px, calc(100% - 2rem));
+  --container-padding: 1rem;
+  --radius: 12px;
+  --gap: 1rem;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.9, 0.2, 1);
+  --duration: 180ms;
+
+  /* Breakpoints */
+  --bp-medium: 768px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  background: linear-gradient(
+    180deg,
+    var(--color-bg) 0%,
+    var(--color-surface) 100%
+  );
+  color: var(--color-text);
+  min-height: 100dvh;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+
+  /* body-level typographic defaults only; use .container to constrain content width */
+
+  /* headings scale responsively */
+  h1 {
+    font-size: clamp(1.5rem, 2.6vw + 0.5rem, 2.25rem);
+    margin: 0 0 0.5rem 0;
+  }
+  h2 {
+    font-size: clamp(1.25rem, 2vw + 0.4rem, 1.75rem);
+    margin: 0 0 0.5rem 0;
+  }
+  h3 {
+    font-size: clamp(1.125rem, 1.5vw + 0.3rem, 1.25rem);
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    margin: 0 0 1rem 0;
+    color: var(--color-muted);
+  }
+}
+
+/* Remove built-in spacing for common elements */
+ul[role="list"],
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Links */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--duration) var(--ease);
+}
+a:hover,
+a:focus {
+  color: var(--color-primary);
+}
+
+/* Buttons get a simple, accessible style */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(0, 0, 0, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  padding: 0.5rem 1rem;
+  border-radius: calc(var(--radius) - 4px);
+  cursor: pointer;
+  transition: transform var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
+}
+.btn:hover {
+  background: var(--surface-hover);
+  color: var(--color-primary-600);
+}
+.btn:active {
+  transform: translateY(1px);
+  background: var(--surface-active);
+  color: var(--color-primary-700);
+}
+
+/* Form elements - remove inconsistent native styles */
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================
+   Modern form styles (global)
+   These apply across routes for consistent, accessible forms.
+   ========================== */
+.form {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(0, 0, 0, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 1.25rem;
+  border-radius: calc(var(--radius) - 4px);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.45);
+}
+
+.form__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.form label {
+  font-weight: 600;
+  color: var(--color-on-surface);
+  font-size: 0.95rem;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="number"],
+.form input[type="date"],
+.form textarea,
+.form select,
+select,
+input[type="month"] {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  transition: box-shadow var(--duration) var(--ease),
+    border-color var(--duration) var(--ease);
+
+  option {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  box-shadow: 0 4px 16px rgba(14, 26, 43, 0.6),
+    0 0 0 3px color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border-color: var(--color-primary-600);
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.form .btn {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+}
+
+.form .btn--primary {
+  background: linear-gradient(
+    180deg,
+    var(--color-primary),
+    var(--color-primary-600)
+  );
+  color: var(--color-on-primary);
+  border: none;
+}
+
+.form .btn--secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.form .help {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.form .field-error {
+  color: var(--color-error);
+  font-size: 0.9rem;
+}
+
+/* Password strength meter (text + bar) */
+.pw-meter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pw-meter .bar {
+  flex: 1 1 auto;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.pw-meter .bar > i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--color-warning),
+    var(--color-success)
+  );
+  transition: width 200ms var(--ease);
+}
+.pw-meter .label {
+  min-width: 6rem;
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+@media (width >= 768px) {
+  .form {
+    padding: 1.5rem;
+  }
+  .form__row {
+    gap: 0.5rem;
+  }
+}
+
+/* Tables - simple responsive table rules */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Accessibility helpers */
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* Visible skip link - place as first element in document flow when focused */
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(-100%);
+  background: var(--color-primary);
+  color: black;
+  padding: 0.5rem 1rem;
+  z-index: 999;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 0;
+  text-decoration: none;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Focus styles */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 80%, transparent);
+  outline-offset: 2px;
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Utility: full-height region that respects mobile chrome using dvh */
+.full-height {
+  min-height: 100dvh;
+}
+
+/* Container helper */
+.container {
+  width: 100%;
+  max-width: var(--site-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  padding-block-start: 1.25rem;
+}
+
+/* Grid gap utility */
+.gap {
+  gap: var(--gap);
+}
+
+/* ==========================
+   Larger screens (tablet and up)
+   Use modern media queries syntax: (width >= 768px)
+   ========================== */
+@media (width >= 768px) {
+  :root {
+    --container-padding: 2rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr min(420px, 40%);
+    gap: var(--gap);
+  }
+}
+
+/* ==========================
+   Small accessibility-focused utilities and examples
+   ========================== */
+.visually-muted {
+  color: var(--color-muted);
+}
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(0, 0, 0, 0.02)
+  );
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+}
+
+/* End of globals.css */
+
+/* Flash messages */
+.flash-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: min(420px, calc(100% - 2rem));
+}
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+  animation: flash-in 260ms var(--ease) both;
+  opacity: 1;
+}
+.flash--success {
+  background: linear-gradient(
+    180deg,
+    rgba(22, 163, 74, 0.12),
+    rgba(22, 163, 74, 0.06)
+  );
+  border: 1px solid rgba(22, 163, 74, 0.18);
+  color: var(--color-success);
+}
+.flash--error {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 107, 107, 0.08),
+    rgba(255, 107, 107, 0.04)
+  );
+  border: 1px solid rgba(255, 107, 107, 0.14);
+  color: var(--color-error);
+}
+.flash .close {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+@keyframes flash-in {
+  from {
+    transform: translateY(-6px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flash-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+
+.field-error {
+  color: var(--color-error);
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+}

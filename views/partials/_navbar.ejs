@@ -1,0 +1,33 @@
+<!-- Accessible skip link: place as first focusable element -->
+<a class="skip-link" href="#maincontent">Skip to main</a>
+
+<nav>
+  <div class="navbar">
+    <h1><a href="/" class="navbar__brand">LedgerLight</a></h1>
+    <div class="navbar__links">
+      <a href="/">Home</a>
+      <% if (currentUser) { %>
+      <a href="/transactions">Transactions</a>
+      <% } %> <% if (currentUser) { %>
+      <span class="navbar__user"
+        >Signed in as
+        <strong
+          ><%= currentUser.username ? currentUser.username : currentUser.email
+          %></strong
+        ></span
+      >
+      <form action="/auth/logout" method="post">
+        <% if (csrfToken) { %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <% } %>
+        <button type="submit">Log out</button>
+      </form>
+      <% } else { %>
+      <a href="/auth/login">Sign in</a>
+      <a href="/auth/register">Register</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
+
+<%- include('./_flash') %>

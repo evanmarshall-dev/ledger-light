@@ -1,0 +1,70 @@
+<%- include('../partials/_head', { title: 'Transactions', styles: ['/styles/transactions.css'] }) %>
+  <body>
+    <%- include('../partials/_navbar') %>
+    <main id="maincontent" class="transactions-list container">
+      <h1>Transactions</h1>
+      <a class="btn" href="/transactions/new">New Transaction</a>
+
+      <% // Active filters summary %>
+      <% if (filters && (filters.month || filters.category || filters.sort)) { %>
+        <div class="active-filters" aria-live="polite">
+          <strong>Active filters:</strong>
+          <ul>
+            <% if (filters.month) { %>
+              <li>Month: <%= filters.month %></li>
+            <% } %>
+            <% if (filters.category) { %>
+              <li>Category: <%= filters.category %></li>
+            <% } %>
+            <% if (filters.sort) { %>
+              <li>Sort: <%= filters.sort.replace('_', ' ') %></li>
+            <% } %>
+          </ul>
+        </div>
+      <% } %>
+
+      <!-- Filters -->
+      <form method="GET" action="/transactions" class="filters" aria-label="Filter transactions">
+        <label for="month">Month</label>
+        <input type="month" id="month" name="month" value="<%= filters && filters.month ? filters.month : '' %>" />
+
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">All</option>
+          <% if (Array.isArray(categories)) { %>
+            <% categories.forEach(cat => { if (cat) { %>
+              <option value="<%= cat %>" <%= filters && filters.category === cat ? 'selected' : '' %>><%= cat %></option>
+            <% } }) %>
+          <% } %>
+        </select>
+
+        <label for="sort">Sort</label>
+        <select id="sort" name="sort">
+          <option value="date_desc" <%= !filters || !filters.sort || filters.sort === 'date_desc' ? 'selected' : '' %>>Date (newest)</option>
+          <option value="date_asc" <%= filters && filters.sort === 'date_asc' ? 'selected' : '' %>>Date (oldest)</option>
+          <option value="title_asc" <%= filters && filters.sort === 'title_asc' ? 'selected' : '' %>>Title (A → Z)</option>
+          <option value="title_desc" <%= filters && filters.sort === 'title_desc' ? 'selected' : '' %>>Title (Z → A)</option>
+        </select>
+
+        <button class="btn" type="submit">Apply</button>
+        <a class="btn" href="/transactions">Reset</a>
+      </form>
+
+      <% if (!transactions || transactions.length === 0) { %>
+      <p>No transactions yet.</p>
+      <% } else { %>
+      <div class="transactions-list">
+        <ul>
+          <% transactions.forEach(tx => { %>
+          <li>
+            <a href="/transactions/<%= tx._id %>"><%= tx.title %> — <%= tx.amount %></a>
+            <span class="transactions-meta"><%= new Date(tx.date).toDateString() %> • <%= tx.category || 'Uncategorized' %></span>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } %>
+    </main>
+    <script src="/js/main.js" defer></script>
+  </body>
+</html>

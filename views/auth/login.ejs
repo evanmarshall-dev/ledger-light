@@ -1,0 +1,35 @@
+<%- include('../partials/_head', { title: 'Login', styles: ['/styles/auth.css'] }) %>
+  <body>
+    <%- include('../partials/_navbar') %>
+    <main id="maincontent" class="auth-page">
+      <div class="auth-card">
+        <h1>Login</h1>
+        <% if (flash && flash.error) { %> <% flash.error.forEach(msg => { %>
+        <p role="alert" class="flash-error"><%= msg %></p>
+        <% }) %> <% } %>
+        <form class="form" action="/auth/login" method="post" data-validate="auth" novalidate>
+          <% if (csrfToken) { %>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <% } %>
+          <% if (typeof email !== 'undefined') { %>
+          <input type="hidden" name="email" value="<%= email %>" />
+          <% } %>
+          <% if (typeof query !== 'undefined' && query.next) { %>
+          <input type="hidden" name="next" value="<%= query.next %>" />
+          <% } else if (typeof next !== 'undefined') { %>
+          <input type="hidden" name="next" value="<%= next %>" />
+          <% } %>
+          <label for="identifier">Email or Username</label>
+          <input id="identifier" name="identifier" type="text" required value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="you@example.com or username" />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required />
+          <div class="form__actions auth-actions">
+            <button type="submit" class="btn btn--primary">Sign in</button>
+            <a href="/" class="btn btn--secondary">Back</a>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script src="/js/main.js" defer></script>
+  </body>
+</html>

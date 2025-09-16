@@ -1,0 +1,48 @@
+<%- include('../partials/_head', { title: 'New Transaction', styles: ['/styles/transactions.css'] }) %>
+  <body>
+    <%- include('../partials/_navbar') %>
+    <main id="maincontent" class="container">
+      <h1>New Transaction</h1>
+      <form class="form" action="/transactions" method="post" data-validate="transaction">
+        <% if (csrfToken) { %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <% } %>
+        <div class="form__row">
+          <label for="title">Title</label>
+          <input id="title" name="title" type="text" required value="<%= (typeof data !== 'undefined' && data.title) ? data.title : '' %>" />
+        </div>
+        <% if (flash && flash.error) { %> <% flash.error.forEach(msg => { %>
+        <div class="field-error" role="alert"><%= msg %></div>
+        <% }) %> <% } %>
+        <div class="form__row">
+          <label for="amount">Amount</label>
+          <input id="amount" name="amount" type="number" step="0.01" required value="<%= (typeof data !== 'undefined' && data.amount) ? data.amount : '' %>" />
+        </div>
+        <div class="form__row">
+          <label for="date">Date</label>
+          <input id="date" name="date" type="date" value="<%= (typeof data !== 'undefined' && data.date) ? data.date : '' %>" />
+        </div>
+        <div class="form__row">
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option value="">-- Choose category --</option>
+            <% if (Array.isArray(categories)) { %>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat %>" <%= (typeof data !== 'undefined' && data.category === cat) ? 'selected' : '' %>><%= cat %></option>
+              <% }) %>
+            <% } %>
+          </select>
+        </div>
+        <div class="form__row">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes"><%= (typeof data !== 'undefined' && data.notes) ? data.notes : '' %></textarea>
+        </div>
+        <div class="form__actions">
+          <button type="submit" class="btn btn--primary">Create</button>
+          <a href="/transactions" class="btn btn--secondary">Cancel</a>
+        </div>
+      </form>
+    </main>
+    <script src="/js/main.js" defer></script>
+  </body>
+</html>
