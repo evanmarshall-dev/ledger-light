@@ -86,11 +86,32 @@ ledgerApp.use(flashMiddleware);
 ledgerApp.use(
   helmet.contentSecurityPolicy({
     directives: {
+      // Keep a restrictive default and explicitly allow known trusted external
+      // hosts that the app may use for fonts or CDNs. Adjust as needed.
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "https:"],
-      imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
+      // Allow same-origin scripts and common CDNs used for libraries or widgets
+      scriptSrc: ["'self'", "https://cdn.jsdelivr.net", "https://unpkg.com"],
+      // Allow styles from same-origin, secure (https) origins and Google Fonts.
+      // Note: avoid 'unsafe-inline' where possible — only add if your templates
+      // inject inline styles that can't be removed.
+      styleSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net",
+        "https://unpkg.com",
+        "https:",
+      ],
+      // Allow font files from Google Fonts and other trusted hosts.
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://fonts.googleapis.com",
+        "https:",
+      ],
+      // Images: same-origin and data URIs (for inline images)
+      imgSrc: ["'self'", "data:", "https:"],
+      // API / fetch endpoints the front-end may talk to
+      connectSrc: ["'self'", "https:"],
     },
   })
 );
