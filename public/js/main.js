@@ -8,7 +8,7 @@ if (typeof document !== "undefined") {
       const close = document.createElement("button");
       close.className = "close";
       close.type = "button";
-      close.textContent = "×";
+      close.textContent = "x";
       close.setAttribute("aria-label", "Dismiss");
       close.addEventListener("click", () => dismissFlash(f));
       f.appendChild(close);

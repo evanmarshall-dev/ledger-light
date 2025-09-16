@@ -3,28 +3,66 @@
     <%- include('../partials/_navbar') %>
     <main id="maincontent" class="transactions-list container">
       <h1>Transactions</h1>
-      <a class="btn" href="/transactions/new">New Transaction</a>
+      <div class="transactions-top">
+        <div class="transactions-actions">
+          <a class="btn" href="/transactions/new">New Transaction</a>
 
-      <% // Active filters summary %>
-      <% if (filters && (filters.month || filters.category || filters.sort)) { %>
-        <div class="active-filters" aria-live="polite">
-          <strong>Active filters:</strong>
-          <ul>
-            <% if (filters.month) { %>
-              <li>Month: <%= filters.month %></li>
-            <% } %>
-            <% if (filters.category) { %>
-              <li>Category: <%= filters.category %></li>
-            <% } %>
-            <% if (filters.sort) { %>
-              <li>Sort: <%= filters.sort.replace('_', ' ') %></li>
-            <% } %>
-          </ul>
+          <% // Active filters summary %>
+          <% if (filters && (filters.month || filters.category || filters.sort)) { %>
+            <div class="active-filters" aria-live="polite">
+              <strong>Active filters:</strong>
+              <ul>
+                <% if (filters.month) { %>
+                  <li>
+                    <form method="GET" action="/transactions" class="remove-filter" aria-label="Remove month filter">
+                      <!-- preserve other filters when removing this one -->
+                      <% if (filters.category) { %>
+                        <input type="hidden" name="category" value="<%= filters.category %>" />
+                      <% } %>
+                      <% if (filters.sort) { %>
+                        <input type="hidden" name="sort" value="<%= filters.sort %>" />
+                      <% } %>
+                      <span>Month: <%= filters.month %></span>
+                      <button type="submit" name="month" value="" class="remove" aria-label="Remove month filter">✕</button>
+                    </form>
+                  </li>
+                <% } %>
+                <% if (filters.category) { %>
+                  <li>
+                    <form method="GET" action="/transactions" class="remove-filter" aria-label="Remove category filter">
+                      <% if (filters.month) { %>
+                        <input type="hidden" name="month" value="<%= filters.month %>" />
+                      <% } %>
+                      <% if (filters.sort) { %>
+                        <input type="hidden" name="sort" value="<%= filters.sort %>" />
+                      <% } %>
+                      <span>Category: <%= filters.category %></span>
+                      <button type="submit" name="category" value="" class="remove" aria-label="Remove category filter">✕</button>
+                    </form>
+                  </li>
+                <% } %>
+                <% if (filters.sort) { %>
+                  <li>
+                    <form method="GET" action="/transactions" class="remove-filter" aria-label="Remove sort filter">
+                      <% if (filters.month) { %>
+                        <input type="hidden" name="month" value="<%= filters.month %>" />
+                      <% } %>
+                      <% if (filters.category) { %>
+                        <input type="hidden" name="category" value="<%= filters.category %>" />
+                      <% } %>
+                      <span>Sort: <%= filters.sort.replace('_', ' ') %></span>
+                      <button type="submit" name="sort" value="" class="remove" aria-label="Remove sort filter">✕</button>
+                    </form>
+                  </li>
+                <% } %>
+              </ul>
+            </div>
+          <% } %>
         </div>
-      <% } %>
 
-      <!-- Filters -->
-      <form method="GET" action="/transactions" class="filters" aria-label="Filter transactions">
+        <!-- Filters -->
+        <form method="GET" action="/transactions" class="filters" aria-label="Filter transactions">
+          <h2 class="visually-muted" id="filter-heading">Filter transactions</h2>
         <label for="month">Month</label>
         <input type="month" id="month" name="month" value="<%= filters && filters.month ? filters.month : '' %>" />
 
@@ -46,23 +84,29 @@
           <option value="title_desc" <%= filters && filters.sort === 'title_desc' ? 'selected' : '' %>>Title (Z → A)</option>
         </select>
 
-        <button class="btn" type="submit">Apply</button>
-        <a class="btn" href="/transactions">Reset</a>
-      </form>
+        <div class="filters__actions">
+          <button class="btn" type="submit">Apply</button>
+          <a class="btn" href="/transactions">Reset</a>
+        </div>
+        </form>
+      </div>
 
       <% if (!transactions || transactions.length === 0) { %>
       <p>No transactions yet.</p>
       <% } else { %>
-      <div class="transactions-list">
+      <section aria-labelledby="transactions-heading" class="transactions-list">
+        <h2 id="transactions-heading">Your transactions</h2>
         <ul>
           <% transactions.forEach(tx => { %>
           <li>
-            <a href="/transactions/<%= tx._id %>"><%= tx.title %> — <%= tx.amount %></a>
-            <span class="transactions-meta"><%= new Date(tx.date).toDateString() %> • <%= tx.category || 'Uncategorized' %></span>
+            <a class="tx-item" href="/transactions/<%= tx._id %>">
+              <span class="tx-item__title"><%= tx.title %> — <%= tx.amount %></span>
+              <span class="transactions-meta tx-item__meta"><%= new Date(tx.date).toDateString() %> • <%= tx.category || 'Uncategorized' %></span>
+            </a>
           </li>
           <% }) %>
         </ul>
-      </div>
+      </section>
       <% } %>
     </main>
     <script src="/js/main.js" defer></script>
