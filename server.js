@@ -22,6 +22,13 @@ const { csrfMiddleware } = require("./middleware/csrf");
 const ledgerApp = express();
 const config = require("./config");
 const port = config.port;
+// When behind a proxy (Heroku, etc.) we must trust the proxy so that
+// secure cookies (cookie.secure) and req.protocol (for req.secure) work.
+// This is required when `cookie.secure` is true and TLS is terminated at the
+// platform load balancer / proxy. Only enable in production.
+if (config.isProduction) {
+  ledgerApp.set("trust proxy", 1);
+}
 
 // ------------------
 // MIDDLEWARE
