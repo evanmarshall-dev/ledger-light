@@ -9,7 +9,7 @@
 
 ## Live Demo
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)]([https://lululemonade.netlify.app/](https://ledger-light-3d68c6f45346.herokuapp.com/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://ledger-light-3d68c6f45346.herokuapp.com/)
 
 A simple, secure, session‑based personal finance tracker built with the MEN stack (MongoDB, Express, Node) and EJS templates. Track income and expenses, filter by month or category, and manage your transactions with full CRUD—only you can see and modify your own data.
 
