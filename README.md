@@ -7,6 +7,10 @@
 ![Mongoose 8](https://img.shields.io/badge/mongoose-8.x-47A248?logo=mongodb&logoColor=white)
 ![License: ISC](https://img.shields.io/badge/license-ISC-blue)
 
+## Live Demo
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)]([https://lululemonade.netlify.app/](https://ledger-light-3d68c6f45346.herokuapp.com/)
+
 A simple, secure, session‑based personal finance tracker built with the MEN stack (MongoDB, Express, Node) and EJS templates. Track income and expenses, filter by month or category, and manage your transactions with full CRUD—only you can see and modify your own data.
 
 ![LedgerLight app screenshot](./public/images/app-screenshot.png "LedgerLight transactions UI with filters and actions")
